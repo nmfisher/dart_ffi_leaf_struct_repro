@@ -1,0 +1,10 @@
+name: dart_ffi_leaf_struct_repro
+publish_to: none
+
+environment:
+  sdk: ^3.5.0
+
+dev_dependencies:
+  ffi: ^2.1.0
+  hooks: ^2.0.2
+  native_toolchain_c: ^0.19.2
