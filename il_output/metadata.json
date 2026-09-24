@@ -1,0 +1,30 @@
+{
+  "reproduction": "72217f2d883828f1935510aa04e78e5b820d69da",
+  "vm": "Dart SDK version: 3.12.2 (stable) (Tue Jun 9 01:11:39 2026 -0700) on \"macos_arm64\"",
+  "capture_kind": "JIT: Dart wrappers and FFI entry points",
+  "reproduction_sha256": {
+    "bin/repro.dart": "44161fb0f8b963672dc483788c740bd77559c4d7a1d7fb7dbd6e59a30a72a56b",
+    "native/lib.c": "a4fe56138cdae07c88873cad9d6e1050370555bedad7c9cfcb581edfa5c8ce50"
+  },
+  "runs": {
+    "current": {
+      "cwd": "/Users/nickfisher/Documents/dart_ffi_leaf_struct_repro",
+      "command": [
+        "/Users/nickfisher/Downloads/flutter/bin/dart",
+        "--deterministic",
+        "--no-background-compilation",
+        "--print-flow-graph",
+        "--print-flow-graph-optimized",
+        "--disassemble",
+        "--disassemble-optimized",
+        "--disassemble-relative",
+        "--print-flow-graph-filter=nativeBigFromAddressLeaf,nativeIntFromPeer",
+        "run",
+        "/Users/nickfisher/Documents/dart_ffi_leaf_struct_repro/bin/repro.dart"
+      ],
+      "exit_code": 1,
+      "pass_count": 0,
+      "fail_count": 5
+    }
+  }
+}

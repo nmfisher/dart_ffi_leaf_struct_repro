@@ -28,37 +28,12 @@ final class Big extends Struct {
   external int c;
 }
 
-@Native<Small Function(Int)>(assetId: asset, symbol: 'make_small', isLeaf: true)
-external Small nativeSmallLeaf(int x);
-
-@Native<Small Function(Int)>(assetId: asset, symbol: 'make_small')
-external Small nativeSmallNonLeaf(int x);
-
-@Native<Big Function(Int)>(assetId: asset, symbol: 'make_big', isLeaf: true)
-external Big nativeBigLeaf(int x);
-
-@Native<Big Function(Int)>(assetId: asset, symbol: 'make_big')
-external Big nativeBigNonLeaf(int x);
-
-@Native<Int Function(Big)>(assetId: asset, symbol: 'take_big', isLeaf: true)
-external int nativeTakeBigLeaf(Big s);
-
-@Native<Int Function(Big)>(assetId: asset, symbol: 'take_big')
-external int nativeTakeBigNonLeaf(Big s);
-
 @Native<Big Function(Pointer<Uint8>)>(
   assetId: asset,
   symbol: 'make_big_from_ptr',
   isLeaf: true,
 )
 external Big nativeBigFromAddressLeaf(Pointer<Uint8> x);
-
-@Native<Int Function(Pointer<Uint8>)>(
-  assetId: asset,
-  symbol: 'make_int_from_ptr',
-  isLeaf: true,
-)
-external int nativeIntFromAddressLeaf(Pointer<Uint8> x);
 
 @Native<Small Function(Pointer<Uint8>)>(
   assetId: asset,
@@ -115,52 +90,7 @@ void main() {
     if (!ok) failures++;
   }
 
-  // Small struct (register return).
-  check('@Native non-leaf small return', () {
-    final s = nativeSmallNonLeaf(9);
-    return s.a == 9.0 && s.c == 42;
-  });
-  check('@Native leaf small return', () {
-    final s = nativeSmallLeaf(9);
-    return s.a == 9.0 && s.c == 42;
-  });
-
-  // Big struct (hidden-pointer return).
-  check('@Native non-leaf big return', () {
-    final s = nativeBigNonLeaf(9);
-    return s.a == 9.0 && s.c == 42;
-  });
-  check('@Native leaf big return', () {
-    final s = nativeBigLeaf(9);
-    return s.a == 9.0 && s.c == 42;
-  });
-
-  // Struct by value as an argument (controls).
-  final reference = nativeBigNonLeaf(9);
-  check(
-    '@Native non-leaf struct argument',
-    () => nativeTakeBigNonLeaf(reference) == 51,
-  );
-  check(
-    '@Native leaf struct argument',
-    () => nativeTakeBigLeaf(reference) == 51,
-  );
-
   final list = Uint8List.fromList([9]);
-  check('leaf + .address argument + int return (control)', () {
-    final v = nativeIntFromAddressLeaf(list.address);
-    return v == 51;
-  });
-  check('@Native leaf + malloc pointer + big return (control)', () {
-    final ptr = malloc<Uint8>(1)..[0] = 9;
-    try {
-      final s = nativeBigFromAddressLeaf(ptr);
-      return s.a == 9.0 && s.c == 42;
-    } finally {
-      malloc.free(ptr);
-    }
-  });
-
   // Assign to Object? to make the unexpected null observable in JIT.
   check('@Native leaf + .address argument + big return (original failure)', () {
     final Object? s = nativeBigFromAddressLeaf(list.address);
@@ -181,23 +111,8 @@ void main() {
 
   // Keep the peer storage alive until all calls complete.
   final peerStorage = malloc<Uint8>()..value = 7;
-  final input = malloc<Uint8>();
   try {
     final peer = Peer(peerStorage);
-    check('native-field argument + malloc pointer + small return', () {
-      input.value = 9;
-      final result = nativeSmallFromPeer(peer, input);
-      return result.a == 16 && result.c == 42 && input.value == 10;
-    });
-    check('native-field argument + malloc pointer + big return', () {
-      input.value = 9;
-      final result = nativeBigFromPeer(peer, input);
-      return result.a == 16 && result.c == 42 && input.value == 10;
-    });
-    check('native-field argument + malloc pointer + int return', () {
-      input.value = 9;
-      return nativeIntFromPeer(peer, input) == 58 && input.value == 10;
-    });
     check('native-field argument + .address + small return', () {
       final data = Uint8List.fromList([9]);
       final Object? result = nativeSmallFromPeer(peer, data.address);
@@ -229,7 +144,6 @@ void main() {
       return result == 58 && data[0] == 10;
     });
   } finally {
-    malloc.free(input);
     malloc.free(peerStorage);
   }
 
