@@ -76,6 +76,14 @@ external Big nativeBigFromPeer(Peer peer, Pointer<Uint8> input);
 external int nativeIntFromPeer(Peer peer, Pointer<Uint8> input);
 
 void main() {
+  final list = Uint8List.fromList([9]);
+  final Small s = nativeSmallFromAddressLeaf(list.address);
+  if (s == null) {
+    throw Exception();
+  }
+}
+
+void main2() {
   var failures = 0;
 
   void check(String label, bool Function() condition) {
