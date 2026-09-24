@@ -89,7 +89,7 @@ for mode in ['buggy', 'fixed']:
         'cwd': str(repro), 'command': run_command, 'exit_code': result.returncode,
         'pass_count': log.count('PASS '), 'fail_count': log.count('FAIL ')}
     (out / 'metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
-    expected = (1, 16, 5, 2) if mode == 'buggy' else (0, 21, 0, 4)
+    expected = (1, 11, 5, 2) if mode == 'buggy' else (0, 16, 0, 4)
     actual = (result.returncode, log.count('PASS '), log.count('FAIL '), len(graphs))
     if actual != expected or len(assembly) != len(graphs):
         raise SystemExit(f'{mode}: unexpected capture results: {actual}; see {out}')

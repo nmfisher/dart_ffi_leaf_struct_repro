@@ -101,9 +101,6 @@ external Big nativeBigFromPeer(Peer peer, Pointer<Uint8> input);
 external int nativeIntFromPeer(Peer peer, Pointer<Uint8> input);
 
 void main() {
-  final dylib = DynamicLibrary.open(
-    File('build/libstruct.dylib').absolute.path,
-  );
   var failures = 0;
 
   void check(String label, bool Function() condition) {
@@ -127,22 +124,6 @@ void main() {
     final s = nativeSmallLeaf(9);
     return s.a == 9.0 && s.c == 42;
   });
-  check('lookupFunction non-leaf small return', () {
-    final f = dylib.lookupFunction<Small Function(Int), Small Function(int)>(
-      'make_small',
-      isLeaf: false,
-    );
-    final s = f(9);
-    return s.a == 9.0 && s.c == 42;
-  });
-  check('lookupFunction leaf small return', () {
-    final f = dylib.lookupFunction<Small Function(Int), Small Function(int)>(
-      'make_small',
-      isLeaf: true,
-    );
-    final s = f(9);
-    return s.a == 9.0 && s.c == 42;
-  });
 
   // Big struct (hidden-pointer return).
   check('@Native non-leaf big return', () {
@@ -151,22 +132,6 @@ void main() {
   });
   check('@Native leaf big return', () {
     final s = nativeBigLeaf(9);
-    return s.a == 9.0 && s.c == 42;
-  });
-  check('lookupFunction non-leaf big return', () {
-    final f = dylib.lookupFunction<Big Function(Int), Big Function(int)>(
-      'make_big',
-      isLeaf: false,
-    );
-    final s = f(9);
-    return s.a == 9.0 && s.c == 42;
-  });
-  check('lookupFunction leaf big return', () {
-    final f = dylib.lookupFunction<Big Function(Int), Big Function(int)>(
-      'make_big',
-      isLeaf: true,
-    );
-    final s = f(9);
     return s.a == 9.0 && s.c == 42;
   });
 
@@ -180,13 +145,6 @@ void main() {
     '@Native leaf struct argument',
     () => nativeTakeBigLeaf(reference) == 51,
   );
-  check('lookupFunction leaf struct argument', () {
-    final f = dylib.lookupFunction<Int Function(Big), int Function(Big)>(
-      'take_big',
-      isLeaf: true,
-    );
-    return f(reference) == 51;
-  });
 
   final list = Uint8List.fromList([9]);
   check('leaf + .address argument + int return (control)', () {

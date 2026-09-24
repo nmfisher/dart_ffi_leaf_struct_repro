@@ -45,9 +45,14 @@ an AOT dump or evidence for the particular cause of an AOT crash.
 
 ## Repeat the capture
 
+The saved dumps above come from the earlier 21-check reproduction. The current
+source removes five `lookupFunction` controls and uses only `@Native` bindings.
+The capture script now expects 11 passes / five failures before the fix and
+16 passes after it; the two `.address` cases selected for IL capture are unchanged.
+
 Use the fixed SDK checkout with its dependencies and `.dart_tool/package_config.json`
 prepared, plus the compatible Dart 3.14.0-248.0.dev SDK. Run `./run.sh` in this
-reproduction first to build its native libraries and create
+reproduction first to build its native code asset and create
 `.dart_tool/native_assets.yaml`; exit 1 is expected with an affected SDK.
 
 ```sh

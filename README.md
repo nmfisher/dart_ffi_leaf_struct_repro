@@ -14,15 +14,14 @@ dart build cli -t bin/repro.dart -o build/aot
 build/aot/bundle/bin/repro
 ```
 
-This compiles `native/lib.c` and runs `bin/repro.dart`, which contains 21 checks (similar to existing Dart SDK FFI test suite). These should all pass, but 5 will fail in JIT mode (.address with struct-return and the native-field argument) and will crash in AOT mode (at least, on macos).
+This compiles `native/lib.c` through Dart's build hook and runs `bin/repro.dart`, which contains 16 checks (similar to existing Dart SDK FFI test suite). These should all pass, but 5 will fail in JIT mode (.address with struct-return and the native-field argument) and will crash in AOT mode (at least, on macos).
 
 ## Coverage
 
 | Call | Argument | Return | Affected SDK result |
 |---|---|---|---|
 | `@Native` leaf/non-leaf | integer | Small / Big | Pass |
-| `lookupFunction` leaf/non-leaf | integer | Small / Big | Pass |
-| `@Native` leaf/non-leaf, `lookupFunction` leaf | Big by value | integer | Pass |
+| `@Native` leaf/non-leaf | Big by value | integer | Pass |
 | `@Native` leaf | `TypedData.address` | integer | Pass |
 | `@Native` leaf | allocated Pointer | Big | Pass |
 | `@Native` leaf | `TypedData.address` | Small / Big | **null** |
