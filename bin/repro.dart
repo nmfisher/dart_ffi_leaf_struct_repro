@@ -1,8 +1,9 @@
-// A leaf @Native call with both a TypedData.address argument and a struct
-// return produces null on affected Dart SDKs. Each ingredient works alone.
+// A leaf @Native call with a TypedData.address argument can produce null
+// when it returns a struct or also converts a NativeFieldWrapperClass1 argument.
 // Small (8 bytes) and Big (24 bytes) cover register and sret returns on arm64.
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:nativewrappers';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
@@ -65,6 +66,39 @@ external int nativeIntFromAddressLeaf(Pointer<Uint8> x);
   isLeaf: true,
 )
 external Small nativeSmallFromAddressLeaf(Pointer<Uint8> x);
+
+// NativeFieldWrapperClass1 arguments need an additional conversion wrapper.
+@Native<Handle Function(Handle, IntPtr, IntPtr)>(
+  symbol: 'Dart_SetNativeInstanceField',
+)
+external Object? setNativeField(Object peer, int index, int value);
+
+base class Peer extends NativeFieldWrapperClass1 {
+  Peer(Pointer<Uint8> storage) {
+    setNativeField(this, 0, storage.address);
+  }
+}
+
+@Native<Small Function(Pointer<Void>, Pointer<Uint8>)>(
+  assetId: asset,
+  symbol: 'make_small_from_peer',
+  isLeaf: true,
+)
+external Small nativeSmallFromPeer(Peer peer, Pointer<Uint8> input);
+
+@Native<Big Function(Pointer<Void>, Pointer<Uint8>)>(
+  assetId: asset,
+  symbol: 'make_big_from_peer',
+  isLeaf: true,
+)
+external Big nativeBigFromPeer(Peer peer, Pointer<Uint8> input);
+
+@Native<Int Function(Pointer<Void>, Pointer<Uint8>)>(
+  assetId: asset,
+  symbol: 'make_int_from_peer',
+  isLeaf: true,
+)
+external int nativeIntFromPeer(Peer peer, Pointer<Uint8> input);
 
 void main() {
   final dylib = DynamicLibrary.open(
@@ -186,6 +220,60 @@ void main() {
     }
     return s is Small && s.a == 9.0 && s.c == 42;
   });
+
+  // Keep the peer storage alive until all calls complete.
+  final peerStorage = malloc<Uint8>()..value = 7;
+  final input = malloc<Uint8>();
+  try {
+    final peer = Peer(peerStorage);
+    check('native-field argument + malloc pointer + small return', () {
+      input.value = 9;
+      final result = nativeSmallFromPeer(peer, input);
+      return result.a == 16 && result.c == 42 && input.value == 10;
+    });
+    check('native-field argument + malloc pointer + big return', () {
+      input.value = 9;
+      final result = nativeBigFromPeer(peer, input);
+      return result.a == 16 && result.c == 42 && input.value == 10;
+    });
+    check('native-field argument + malloc pointer + int return', () {
+      input.value = 9;
+      return nativeIntFromPeer(peer, input) == 58 && input.value == 10;
+    });
+    check('native-field argument + .address + small return', () {
+      final data = Uint8List.fromList([9]);
+      final Object? result = nativeSmallFromPeer(peer, data.address);
+      if (result == null) {
+        print('  -> returned null, input remains ${data[0]}');
+        return false;
+      }
+      return result is Small &&
+          result.a == 16 &&
+          result.c == 42 &&
+          data[0] == 10;
+    });
+    check('native-field argument + .address + big return', () {
+      final data = Uint8List.fromList([9]);
+      final Object? result = nativeBigFromPeer(peer, data.address);
+      if (result == null) {
+        print('  -> returned null, input remains ${data[0]}');
+        return false;
+      }
+      return result is Big && result.a == 16 && result.c == 42 && data[0] == 10;
+    });
+    check('native-field argument + .address + int return', () {
+      final data = Uint8List.fromList([9]);
+      final Object? result = nativeIntFromPeer(peer, data.address);
+      if (result == null) {
+        print('  -> returned null, input remains ${data[0]}');
+        return false;
+      }
+      return result == 58 && data[0] == 10;
+    });
+  } finally {
+    malloc.free(input);
+    malloc.free(peerStorage);
+  }
 
   print(
     failures == 0

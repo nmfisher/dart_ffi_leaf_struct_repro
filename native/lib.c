@@ -44,3 +44,17 @@ Big make_big_from_ptr(const unsigned char *x) {
 int make_int_from_ptr(const unsigned char *x) { return x[0] + 42; }
 
 int take_big(Big s) { return (int)s.a + s.c; }
+
+/* The peer's native field points to a byte used in the result. Mutating the
+ * input proves the native function was actually called. */
+Small make_small_from_peer(const unsigned char *peer, unsigned char *x) {
+    return make_small(peer[0] + x[0]++);
+}
+
+Big make_big_from_peer(const unsigned char *peer, unsigned char *x) {
+    return make_big(peer[0] + x[0]++);
+}
+
+int make_int_from_peer(const unsigned char *peer, unsigned char *x) {
+    return peer[0] + x[0]++ + 42;
+}
