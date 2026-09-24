@@ -1,0 +1,23 @@
+*** BEGIN CFG
+Unoptimized Compilation
+==== file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeBigFromAddressLeaf#T (RegularFunction)
+B0[graph]:0
+B1[function entry]:2
+    CheckStackOverflow:8(stack=0, loop=0)
+    DebugStepCheck:10()
+    t0 <- Constant(#null)
+    DebugStepCheck:12()
+    DartReturn:14(t0)
+*** END CFG
+
+*** BEGIN CFG
+Unoptimized Compilation
+==== file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeIntFromPeer#T (RegularFunction)
+B0[graph]:0
+B1[function entry]:2
+    CheckStackOverflow:8(stack=0, loop=0)
+    DebugStepCheck:10()
+    t0 <- Constant(#null)
+    DebugStepCheck:12()
+    DartReturn:14(t0)
+*** END CFG

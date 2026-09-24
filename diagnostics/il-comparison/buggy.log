@@ -1,0 +1,865 @@
+PASS @Native non-leaf small return
+PASS @Native leaf small return
+PASS lookupFunction non-leaf small return
+PASS lookupFunction leaf small return
+PASS @Native non-leaf big return
+PASS @Native leaf big return
+PASS lookupFunction non-leaf big return
+PASS lookupFunction leaf big return
+PASS @Native non-leaf struct argument
+PASS @Native leaf struct argument
+PASS lookupFunction leaf struct argument
+PASS leaf + .address argument + int return (control)
+*** BEGIN CFG
+Unoptimized Compilation
+==== file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeBigFromAddressLeaf (RegularFunction)
+B0[graph]:0
+B1[function entry]:2
+    CheckStackOverflow:8(stack=0, loop=0)
+    DebugStepCheck:10()
+    Constant(#null)
+    t0 <- LoadLocal(x @1)
+    RecordCoverage()
+    t0 <- StaticCall:18( _nativeBigFromAddressLeaf$Method$FfiNative@22468563<0> t0)
+    DartReturn:20(t0)
+*** END CFG
+Code for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeBigFromAddressLeaf' (RegularFunction) {
+        ;; B0
+        ;; B1
+        ;; Invocation Count Check
+0x0    f8437306               ldr r6, [r24, #55]
+0x4    b886f0c7               ldrsw r7, [r6, #111]
+0x8    910004e7               add r7, r7, #0x1
+0xc    b806f0c7               strw r7, [r6, #111]
+0x10    d2846511               movz tmp2, #0x2328
+0x14    eb1100ff               cmp r7, tmp2
+0x18    5400006b               blt +12
+0x1c    f9412f50               ldr tmp, [thr, #600]
+0x20    d61f0200               br tmp
+        ;; Enter frame
+0x24    a9bf79fd               stp fp, lr, [sp, #-16]!
+0x28    aa0f03fd               mov fp, sp
+0x2c    91000771               add tmp2, pp, #0x1
+0x30    a9bf61f1               stp tmp2, r24, [sp, #-16]!
+0x34    f842731b               ldr pp, [r24, #39]
+0x38    d100077b               sub pp, pp, #0x1
+0x3c    d10021ef               sub sp, sp, #0x8
+        ;; Initialize spill slots
+0x40    f81e83b6               str nr, [fp, #-24]
+        ;; Edge counter
+0x44    f9400b60               ldr r0, [pp, #16]   _List len:2
+0x48    f841f010               ldr tmp, [r0, #31]
+0x4c    91000a10               add tmp, tmp, #0x2
+0x50    f801f010               str tmp, [r0, #31]
+        ;; CheckStackOverflow:8(stack=0, loop=0)
+0x54    f9402750               ldr tmp, [thr, #72]
+0x58    eb1001ff               cmp sp, tmp
+0x5c    540002c9               bls +88
+        ;; DebugStepCheck:10()
+0x60    f9400f78               ldr r24, [pp, #24]   Code([Stub] DebugStepCheck)
+0x64    f840731e               ldr lr, [r24, #7]
+0x68    d63f03c0               blr lr
+        ;; Constant(#null)
+0x6c    aa1603e0               mov r0, nr
+        ;; t0 <- LoadLocal(x @1)
+0x70    f9400ba0               ldr r0, [fp, #16]
+0x74    f81f8de0               str r0, [sp, #-8]!
+        ;; RecordCoverage()
+0x78    f9401360               ldr r0, [pp, #32]   _Uint32List
+0x7c    d2800041               movz r1, #0x2
+0x80    b801b001               strw r1, [r0, #27]
+        ;; t0 <- StaticCall:18( _nativeBigFromAddressLeaf$Method$FfiNative@22468563<0> t0)
+0x84    f9401765               ldr r5, [pp, #40]   ICData(_nativeBigFromAddressLeaf$Method$FfiNative@22468563 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 18)
+0x88    f9401b78               ldr r24, [pp, #48]   Code([Stub] ZeroArgsUnoptimizedStaticCall)
+0x8c    f840731e               ldr lr, [r24, #7]
+0x90    d63f03c0               blr lr
+0x94    910021ef               add sp, sp, #0x8
+0x98    f81f8de0               str r0, [sp, #-8]!
+        ;; DartReturn:20(t0)
+0x9c    f84085e0               ldr r0, [sp], #8 !
+0xa0    f85f03bb               ldr pp, [fp, #-16]
+0xa4    d100077b               sub pp, pp, #0x1
+0xa8    aa1d03ef               mov sp, fp
+0xac    a8c179fd               ldp fp, lr, [sp], #16 !
+0xb0    d65f03c0               ret
+        ;; CheckStackOverflowSlowPath
+0xb4    f9425b45               ldr r5, [thr, #1200]
+0xb8    d2800004               movz r4, #0x0
+        ;; Runtime call: DRT_InterruptOrStackOverflow
+0xbc    f941075e               ldr lr, [thr, #520]
+0xc0    d63f03c0               blr lr
+0xc4    17ffffe7               b -100
+}
+ObjectPool len:5 {
+  [pp, #16] _List len:2 (obj)
+  [pp, #24] Code([Stub] DebugStepCheck) (obj)
+  [pp, #32] _Uint32List (obj)
+  [pp, #40] ICData(_nativeBigFromAddressLeaf$Method$FfiNative@22468563 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 18) (obj)
+  [pp, #48] Code([Stub] ZeroArgsUnoptimizedStaticCall) (obj)
+}
+Source positions for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeBigFromAddressLeaf' {
+0-43: Function 'nativeBigFromAddressLeaf': static.@DartCodePrologue
+44-53: Function 'nativeBigFromAddressLeaf': static.@ControlFlow
+54-6b: Function 'nativeBigFromAddressLeaf': static.@1481
+6c-6f: Function 'nativeBigFromAddressLeaf': static.@Constant
+70-77: Function 'nativeBigFromAddressLeaf': static.@NoSource
+78-93: Function 'nativeBigFromAddressLeaf': static.@1441
+94-9b: Function 'nativeBigFromAddressLeaf': static.@1441
+9c-c3: Function 'nativeBigFromAddressLeaf': static.@1322
+c4-c7: Function 'nativeBigFromAddressLeaf': static.@1322
+}
+PC Descriptors for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeBigFromAddressLeaf' {
+pc                kind           deopt-id  tok-ix        try-ix yield-idx
+0x54              deopt                 2  NoSource          -1        -1
+0x6c              runtime-call         10  1481              -1        -1
+0x84              deopt                18  1441              -1        -1
+0x84              rewind               18  1441              -1        -1
+0x94              unopt-call           18  1441              -1        -1
+0x94              deopt                19  1441              -1        -1
+0x9c              deopt                20  NoSource          -1        -1
+0xc4              other                 8  1322              -1        -1
+0xc4              deopt                 9  1322              -1        -1
+}
+Entry points for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeBigFromAddressLeaf' {
+  [code+0x07] 0 kNormal
+  [code+0x0f] 0 kMonomorphic
+  [code+0x17] 0 kUnchecked
+  [code+0x1f] 0 kMonomorphicUnchecked
+}
+*** BEGIN CFG
+After AllocateRegisters
+==== file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeBigFromAddressLeaf$Method$FfiNative@22468563 (RegularFunction)
+  0: B0[graph]:0 {
+      v0 <- Constant(#null) T{Null?}
+      v1 <- Constant(#<optimized out>) T{Sentinel~}
+      v3 <- Constant(#package:dart_ffi_leaf_struct_repro/repro.dart) T{_OneByteString}
+      v4 <- Constant(#make_big_from_ptr) T{_OneByteString}
+      v5 <- Constant(#1) [1, 1] T{_Smi}
+      v8 <- Constant(#24) [24, 24] T{_Smi}
+      v13 <- Constant(#0) [0, 0] T{_Smi}
+}
+  2: B1[function entry]:2 {
+      v2 <- Parameter(0 @fp[2]) T{Pointer}
+}
+  4:     MoveArgument(sp[2] <- v3)
+  6:     MoveArgument(sp[1] <- v4)
+  8:     MoveArgument(sp[0] <- v5)
+ 10:     v6 <- CachableIdempotentCall:8( _ffi_resolver_function@9050071<0> v3, v4, v5) untagged
+ 11:     ParallelMove r4 <- C, r0 <- r0
+ 12:     ParallelMove fp[-3] <- r0
+ 12:     v9 <- AllocateTypedData:12(v8) T{_Uint8List}
+ 13:     ParallelMove r20 <- r0, r0 <- fp[2]
+ 14:     ParallelMove fp[-4] <- r20
+ 14:     v10 <- LoadField(v2 T{Pointer} . PointerBase.data {final}) untagged
+ 15:     ParallelMove r0 <- r23, r9 <- fp[-3]
+ 16:     v11 <- FfiCall:14( pointer=v6, compound_return_typed_data=v9, v10 (@r0 int64)) T{<:*?}
+ 18:     v12 <- AllocateObject:16(cls=Big, <not-aliased>) T{Big}
+ 19:     ParallelMove r0 <- r0, r1 <- fp[-4]
+ 20:     StoreField(v12 . _typedDataBase@9050071 = v9, NoStoreBarrier)
+ 22:     StoreField(v12 . _offsetInBytes@9050071 = v13, NoStoreBarrier)
+ 24:     DartReturn:18(v12)
+*** END CFG
+Code for optimized function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeBigFromAddressLeaf$Method$FfiNative@22468563' (RegularFunction) {
+        ;; B0
+        ;; B1
+        ;; Enter frame
+0x0    a9bf79fd               stp fp, lr, [sp, #-16]!
+0x4    aa0f03fd               mov fp, sp
+0x8    91000771               add tmp2, pp, #0x1
+0xc    a9bf61f1               stp tmp2, r24, [sp, #-16]!
+0x10    f842731b               ldr pp, [r24, #39]
+0x14    d100077b               sub pp, pp, #0x1
+0x18    d100a1ef               sub sp, sp, #0x28
+        ;; MoveArgument(sp[2] <- v3)
+0x1c    f9400b70               ldr tmp, [pp, #16]   "package:dart_ffi_leaf_struct_repro/repro.dart"
+0x20    f9400f7e               ldr lr, [pp, #24]   "make_big_from_ptr"
+0x24    a900c1fe               stp lr, tmp, [sp, #8]
+0x28    d2800050               movz tmp, #0x2
+0x2c    f90001f0               str tmp, [sp]
+        ;; MoveArgument(sp[1] <- v4)
+        ;; MoveArgument(sp[0] <- v5)
+        ;; v6 <- CachableIdempotentCall:8( _ffi_resolver_function@9050071<0> v3, v4, v5) untagged
+        ;; CachableIdempotentCall pool load and check. pool_index = 2
+0x30    f9401360               ldr r0, [pp, #32]
+0x34    f100001f               cmp r0, #0x0
+0x38    54000141               bne +40
+        ;; CachableIdempotentCall pool load and check - end
+0x3c    f9401765               ldr r5, [pp, #40]   ICData(_ffi_resolver_function@9050071 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 8)
+0x40    f9401b78               ldr r24, [pp, #48]   Code([Stub] ZeroArgsUnoptimizedStaticCall)
+0x44    f840731e               ldr lr, [r24, #7]
+0x48    d63f03c0               blr lr
+        ;; CachableIdempotentCall pool store
+0x4c    aa0003f0               mov tmp, r0
+0x50    9341fe00               asr r0, tmp, #1
+0x54    36000050               tbzw tmp, #0, +8
+0x58    f8407200               ldr r0, [tmp, #7]
+0x5c    f9001360               str r0, [pp, #32]
+        ;; CachableIdempotentCall pool store - end
+        ;; ParallelMove r4 <- C, r0 <- r0
+0x60    d2800604               movz r4, #0x30
+        ;; ParallelMove fp[-3] <- r0
+0x64    f81e83a0               str r0, [fp, #-24]
+        ;; v9 <- AllocateTypedData:12(v8) T{_Uint8List}
+0x68    f9401f78               ldr r24, [pp, #56]   Code([Stub] AllocateUint8Array)
+0x6c    f840731e               ldr lr, [r24, #7]
+0x70    d63f03c0               blr lr
+        ;; ParallelMove r20 <- r0, r0 <- fp[2]
+0x74    aa0003f4               mov r20, r0
+0x78    f9400ba0               ldr r0, [fp, #16]
+        ;; ParallelMove fp[-4] <- r20
+0x7c    f81e03b4               str r20, [fp, #-32]
+        ;; v10 <- LoadField(v2 T{Pointer} . PointerBase.data {final}) untagged
+0x80    f8407017               ldr r23, [r0, #7]
+        ;; ParallelMove r0 <- r23, r9 <- fp[-3]
+0x84    aa1703e0               mov r0, r23
+0x88    f85e83a9               ldr r9, [fp, #-24]
+        ;; v11 <- FfiCall:14( pointer=v6, compound_return_typed_data=v9, v10 (@r0 int64)) T{<:*?}
+0x8c    aa0f03f3               mov r19, sp
+0x90    d10081ef               sub sp, sp, #0x20
+0x94    927cedef               and sp, sp, 0xfffffffffffffff0
+        ;; EmitParamMoves
+        ;; return_location.IsPointerToMemory
+0x98    aa0f03e8               mov r8, sp
+0x9c    91002108               add r8, r8, #0x8
+        ;; arg_index 0 arg_target r0 int64
+        ;;   def_index 0
+        ;; def_target r0 int64 <- origin r0 untagged
+        ;; EmitParamMovesEnd
+        ;; Leaf Call
+0xa0    f9036f5d               str fp, [thr, #1752]
+0xa4    f9038349               str r9, [thr, #1792]
+0xa8    910003f9               mov r25, csp
+0xac    910001ff               mov csp, sp
+0xb0    d63f0120               blr r9
+0xb4    910003ef               mov sp, csp
+0xb8    9100033f               mov csp, r25
+0xbc    d280010a               movz r10, #0x8
+0xc0    f903834a               str r10, [thr, #1792]
+0xc4    f9036f5f               str zr, [thr, #1752]
+        ;; EmitReturnMoves
+0xc8    aa1403ea               mov r10, r20
+0xcc    f840714a               ldr r10, [r10, #7]
+0xd0    f94005eb               ldr r11, [sp, #8]
+0xd4    f900014b               str r11, [r10]
+0xd8    f94009eb               ldr r11, [sp, #16]
+0xdc    f900054b               str r11, [r10, #8]
+0xe0    f9400deb               ldr r11, [sp, #24]
+0xe4    f900094b               str r11, [r10, #16]
+        ;; EmitReturnMovesEnd
+0xe8    aa1303ef               mov sp, r19
+        ;; v12 <- AllocateObject:16(cls=Big, <not-aliased>) T{Big}
+0xec    f9402378               ldr r24, [pp, #64]   Code([Stub] Allocate Big)
+0xf0    f840731e               ldr lr, [r24, #7]
+0xf4    d63f03c0               blr lr
+        ;; ParallelMove r0 <- r0, r1 <- fp[-4]
+0xf8    f85e03a1               ldr r1, [fp, #-32]
+        ;; StoreField(v12 . _typedDataBase@9050071 = v9, NoStoreBarrier)
+0xfc    f8007001               str r1, [r0, #7]
+        ;; StoreField(v12 . _offsetInBytes@9050071 = v13, NoStoreBarrier)
+0x100    f800f01f               str zr, [r0, #15]
+        ;; ParallelMove r0 <- r0
+        ;; DartReturn:18(v12)
+0x104    f85f03bb               ldr pp, [fp, #-16]
+0x108    d100077b               sub pp, pp, #0x1
+0x10c    aa1d03ef               mov sp, fp
+0x110    a8c179fd               ldp fp, lr, [sp], #16 !
+0x114    d65f03c0               ret
+}
+ObjectPool len:10 {
+  [pp, #16] package:dart_ffi_leaf_struct_repro/repro.dart (obj)
+  [pp, #24] make_big_from_ptr (obj)
+  [pp, #32] 0x0 (raw)
+  [pp, #40] ICData(_ffi_resolver_function@9050071 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 8) (obj)
+  [pp, #48] Code([Stub] ZeroArgsUnoptimizedStaticCall) (obj)
+  [pp, #56] Code([Stub] AllocateUint8Array) (obj)
+  [pp, #64] Code([Stub] Allocate Big) (obj)
+  [pp, #72] Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static. (obj)
+  [pp, #80] null (obj)
+  [pp, #88] <optimized out> (obj)
+}
+Source positions for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeBigFromAddressLeaf$Method$FfiNative@22468563' {
+0-1b: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@DartCodePrologue
+1c-4b: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@NoSource
+4c-5f: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@NoSource
+60-73: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@NoSource
+74-7f: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@ParallelMove
+80-83: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@NoSource
+84-8b: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@ParallelMove
+8c-f7: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@NoSource
+f8-fb: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@ParallelMove
+fc-117: Function '_nativeBigFromAddressLeaf$Method$FfiNative@22468563': static.@NoSource
+}
+PC Descriptors for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeBigFromAddressLeaf$Method$FfiNative@22468563' {
+pc                kind           deopt-id  tok-ix        try-ix yield-idx
+0x3c              rewind                8  NoSource          -1        -1
+0x4c              unopt-call            8  NoSource          -1        -1
+0x4c              deopt                 9  NoSource          -1        -1
+0x74              other                12  NoSource          -1        -1
+0xf8              other                16  NoSource          -1        -1
+}
+DeoptInfo: {
+   0: 0x74  [pp(7)][pc(8)][callerfp][retaddr(7, 13)][mint(s5)][const(8)][const(8)][callerpp][pc(7)][callerfp][callerpc][word(s0)]  (AtCall)
+   1: 0xf8  [pp(7)][pc(8)][callerfp][retaddr(7, 17)][word(s6)][mint(s5)][const(8)][const(8)][callerpp][pc(7)][callerfp][callerpc][const(9)]  (AtCall)
+}
+StackMaps for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeBigFromAddressLeaf$Method$FfiNative@22468563' {
+0x0000004c: 00
+0x00000074: 00000
+0x000000f8: 01000
+}
+Entry points for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeBigFromAddressLeaf$Method$FfiNative@22468563' {
+  [code+0x07] 0 kNormal
+  [code+0x0f] 0 kMonomorphic
+  [code+0x17] 0 kUnchecked
+  [code+0x1f] 0 kMonomorphicUnchecked
+}
+Static call target functions {
+  0x74: [Stub] AllocateUint8Array, (call-via-code)
+  0xf8: allocation stub for Library:'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart' Class: Big, (call-via-code)
+}
+PASS @Native leaf + malloc pointer + big return (control)
+*** BEGIN CFG
+Unoptimized Compilation
+==== file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeBigFromAddressLeaf#T (RegularFunction)
+B0[graph]:0
+B1[function entry]:2
+    CheckStackOverflow:8(stack=0, loop=0)
+    DebugStepCheck:10()
+    t0 <- Constant(#null)
+    DebugStepCheck:12()
+    DartReturn:14(t0)
+*** END CFG
+Code for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeBigFromAddressLeaf#T' (RegularFunction) {
+        ;; B0
+        ;; B1
+        ;; Invocation Count Check
+0x0    f8437306               ldr r6, [r24, #55]
+0x4    b886f0c7               ldrsw r7, [r6, #111]
+0x8    910004e7               add r7, r7, #0x1
+0xc    b806f0c7               strw r7, [r6, #111]
+0x10    d2846511               movz tmp2, #0x2328
+0x14    eb1100ff               cmp r7, tmp2
+0x18    5400006b               blt +12
+0x1c    f9412f50               ldr tmp, [thr, #600]
+0x20    d61f0200               br tmp
+        ;; Enter frame
+0x24    a9bf79fd               stp fp, lr, [sp, #-16]!
+0x28    aa0f03fd               mov fp, sp
+0x2c    91000771               add tmp2, pp, #0x1
+0x30    a9bf61f1               stp tmp2, r24, [sp, #-16]!
+0x34    f842731b               ldr pp, [r24, #39]
+0x38    d100077b               sub pp, pp, #0x1
+0x3c    d10021ef               sub sp, sp, #0x8
+        ;; Initialize spill slots
+0x40    f81e83b6               str nr, [fp, #-24]
+        ;; Edge counter
+0x44    f9400b60               ldr r0, [pp, #16]   _List len:2
+0x48    f841f010               ldr tmp, [r0, #31]
+0x4c    91000a10               add tmp, tmp, #0x2
+0x50    f801f010               str tmp, [r0, #31]
+        ;; CheckStackOverflow:8(stack=0, loop=0)
+0x54    f9402750               ldr tmp, [thr, #72]
+0x58    eb1001ff               cmp sp, tmp
+0x5c    540001e9               bls +60
+        ;; DebugStepCheck:10()
+0x60    f9400f78               ldr r24, [pp, #24]   Code([Stub] DebugStepCheck)
+0x64    f840731e               ldr lr, [r24, #7]
+0x68    d63f03c0               blr lr
+        ;; t0 <- Constant(#null)
+0x6c    aa1603e0               mov r0, nr
+0x70    f81f8de0               str r0, [sp, #-8]!
+        ;; DebugStepCheck:12()
+0x74    f9401378               ldr r24, [pp, #32]   Code([Stub] DebugStepCheck)
+0x78    f840731e               ldr lr, [r24, #7]
+0x7c    d63f03c0               blr lr
+        ;; DartReturn:14(t0)
+0x80    f84085e0               ldr r0, [sp], #8 !
+0x84    f85f03bb               ldr pp, [fp, #-16]
+0x88    d100077b               sub pp, pp, #0x1
+0x8c    aa1d03ef               mov sp, fp
+0x90    a8c179fd               ldp fp, lr, [sp], #16 !
+0x94    d65f03c0               ret
+        ;; CheckStackOverflowSlowPath
+0x98    f9425b45               ldr r5, [thr, #1200]
+0x9c    d2800004               movz r4, #0x0
+        ;; Runtime call: DRT_InterruptOrStackOverflow
+0xa0    f941075e               ldr lr, [thr, #520]
+0xa4    d63f03c0               blr lr
+0xa8    17ffffee               b -72
+}
+ObjectPool len:3 {
+  [pp, #16] _List len:2 (obj)
+  [pp, #24] Code([Stub] DebugStepCheck) (obj)
+  [pp, #32] Code([Stub] DebugStepCheck) (obj)
+}
+Source positions for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeBigFromAddressLeaf#T' {
+0-43: Function '#nativeBigFromAddressLeaf#T': static.@DartCodePrologue
+44-53: Function '#nativeBigFromAddressLeaf#T': static.@ControlFlow
+54-6b: Function '#nativeBigFromAddressLeaf#T': static.@1465
+6c-7f: Function '#nativeBigFromAddressLeaf#T': static.@1483
+80-a7: Function '#nativeBigFromAddressLeaf#T': static.@1322
+a8-ab: Function '#nativeBigFromAddressLeaf#T': static.@1322
+}
+PC Descriptors for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeBigFromAddressLeaf#T' {
+pc                kind           deopt-id  tok-ix        try-ix yield-idx
+0x54              deopt                 2  NoSource          -1        -1
+0x6c              runtime-call         10  1465              -1        -1
+0x80              runtime-call         12  1483              -1        -1
+0x80              deopt                14  1483              -1        -1
+0xa8              other                 8  1322              -1        -1
+0xa8              deopt                 9  1322              -1        -1
+}
+Entry points for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeBigFromAddressLeaf#T' {
+  [code+0x07] 0 kNormal
+  [code+0x0f] 0 kMonomorphic
+  [code+0x17] 0 kUnchecked
+  [code+0x1f] 0 kMonomorphicUnchecked
+}
+  -> returned null
+FAIL @Native leaf + .address argument + big return (original failure)
+  -> returned null
+FAIL @Native leaf + .address argument + small return
+PASS native-field argument + malloc pointer + small return
+PASS native-field argument + malloc pointer + big return
+*** BEGIN CFG
+Unoptimized Compilation
+==== file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeIntFromPeer (RegularFunction)
+B0[graph]:0
+B1[function entry]:2
+    CheckStackOverflow:8(stack=0, loop=0)
+    DebugStepCheck:10()
+    t0 <- LoadLocal(peer @2)
+    StoreLocal( @-1, t0)
+    t0 <- LoadLocal(input @1)
+    StoreLocal( @-2, t0)
+    t0 <- Constant(#TypeArguments: (H116f861f) [Type: Void])
+    t1 <- LoadLocal( @-1)
+    t1 <- StaticCall:12( _getNativeField@7320332<0> t1, recognized_kind = GetNativeField)
+    t0 <- StaticCall:14( _fromAddress@9050071<1> t0, t1, recognized_kind = FfiFromAddress)
+    t1 <- LoadLocal( @-2)
+    RecordCoverage()
+    t0 <- StaticCall:16( _nativeIntFromPeer$Method$FfiNative@22468563<0> t0, t1)
+    StoreLocal( @-3, t0)
+    t0 <- LoadLocal( @-1)
+    ReachabilityFence(t0)
+    Constant(#null)
+    t0 <- LoadLocal( @-3)
+    DartReturn:18(t0)
+*** END CFG
+Code for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeIntFromPeer' (RegularFunction) {
+        ;; B0
+        ;; B1
+        ;; Invocation Count Check
+0x0    f8437306               ldr r6, [r24, #55]
+0x4    b886f0c7               ldrsw r7, [r6, #111]
+0x8    910004e7               add r7, r7, #0x1
+0xc    b806f0c7               strw r7, [r6, #111]
+0x10    d2846511               movz tmp2, #0x2328
+0x14    eb1100ff               cmp r7, tmp2
+0x18    5400006b               blt +12
+0x1c    f9412f50               ldr tmp, [thr, #600]
+0x20    d61f0200               br tmp
+        ;; Enter frame
+0x24    a9bf79fd               stp fp, lr, [sp, #-16]!
+0x28    aa0f03fd               mov fp, sp
+0x2c    91000771               add tmp2, pp, #0x1
+0x30    a9bf61f1               stp tmp2, r24, [sp, #-16]!
+0x34    f842731b               ldr pp, [r24, #39]
+0x38    d100077b               sub pp, pp, #0x1
+0x3c    d10081ef               sub sp, sp, #0x20
+        ;; Initialize spill slots
+0x40    f81e83b6               str nr, [fp, #-24]
+0x44    f81e03b6               str nr, [fp, #-32]
+0x48    f81d83b6               str nr, [fp, #-40]
+0x4c    f81d03b6               str nr, [fp, #-48]
+        ;; Edge counter
+0x50    f9400b60               ldr r0, [pp, #16]   _List len:2
+0x54    f841f010               ldr tmp, [r0, #31]
+0x58    91000a10               add tmp, tmp, #0x2
+0x5c    f801f010               str tmp, [r0, #31]
+        ;; CheckStackOverflow:8(stack=0, loop=0)
+0x60    f9402750               ldr tmp, [thr, #72]
+0x64    eb1001ff               cmp sp, tmp
+0x68    540005a9               bls +180
+        ;; DebugStepCheck:10()
+0x6c    f9400f78               ldr r24, [pp, #24]   Code([Stub] DebugStepCheck)
+0x70    f840731e               ldr lr, [r24, #7]
+0x74    d63f03c0               blr lr
+        ;; t0 <- LoadLocal(peer @2)
+0x78    f9400fa0               ldr r0, [fp, #24]
+        ;; StoreLocal( @-1, t0)
+0x7c    f81e03a0               str r0, [fp, #-32]
+        ;; t0 <- LoadLocal(input @1)
+0x80    f9400ba0               ldr r0, [fp, #16]
+        ;; StoreLocal( @-2, t0)
+0x84    f81d83a0               str r0, [fp, #-40]
+        ;; t0 <- Constant(#TypeArguments: (H116f861f) [Type: Void])
+0x88    f9401360               ldr r0, [pp, #32]   TypeArguments: (H116f861f) [Type: Void]
+0x8c    f81f8de0               str r0, [sp, #-8]!
+        ;; t1 <- LoadLocal( @-1)
+0x90    f85e03a0               ldr r0, [fp, #-32]
+0x94    f81f8de0               str r0, [sp, #-8]!
+        ;; t1 <- StaticCall:12( _getNativeField@7320332<0> t1, recognized_kind = GetNativeField)
+0x98    f9401765               ldr r5, [pp, #40]   ICData(_getNativeField@7320332 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 12)
+0x9c    f9401b78               ldr r24, [pp, #48]   Code([Stub] ZeroArgsUnoptimizedStaticCall)
+0xa0    f840731e               ldr lr, [r24, #7]
+0xa4    d63f03c0               blr lr
+0xa8    910021ef               add sp, sp, #0x8
+0xac    f81f8de0               str r0, [sp, #-8]!
+        ;; t0 <- StaticCall:14( _fromAddress@9050071<1> t0, t1, recognized_kind = FfiFromAddress)
+0xb0    f9401f65               ldr r5, [pp, #56]   ICData(_fromAddress@9050071 num-args: 0 num-checks: 1 type-args-len: 1, deopt-id: 14)
+0xb4    f9402378               ldr r24, [pp, #64]   Code([Stub] ZeroArgsUnoptimizedStaticCall)
+0xb8    f840731e               ldr lr, [r24, #7]
+0xbc    d63f03c0               blr lr
+0xc0    910041ef               add sp, sp, #0x10
+0xc4    f81f8de0               str r0, [sp, #-8]!
+        ;; t1 <- LoadLocal( @-2)
+0xc8    f85d83a0               ldr r0, [fp, #-40]
+0xcc    f81f8de0               str r0, [sp, #-8]!
+        ;; RecordCoverage()
+0xd0    f9402760               ldr r0, [pp, #72]   _Uint32List
+0xd4    d2800041               movz r1, #0x2
+0xd8    b801b001               strw r1, [r0, #27]
+        ;; t0 <- StaticCall:16( _nativeIntFromPeer$Method$FfiNative@22468563<0> t0, t1)
+0xdc    f9402b65               ldr r5, [pp, #80]   ICData(_nativeIntFromPeer$Method$FfiNative@22468563 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 16)
+0xe0    f9402f78               ldr r24, [pp, #88]   Code([Stub] ZeroArgsUnoptimizedStaticCall)
+0xe4    f840731e               ldr lr, [r24, #7]
+0xe8    d63f03c0               blr lr
+0xec    910041ef               add sp, sp, #0x10
+        ;; StoreLocal( @-3, t0)
+0xf0    f81d03a0               str r0, [fp, #-48]
+        ;; t0 <- LoadLocal( @-1)
+0xf4    f85e03a0               ldr r0, [fp, #-32]
+        ;; ReachabilityFence(t0)
+        ;; Constant(#null)
+0xf8    aa1603e0               mov r0, nr
+        ;; t0 <- LoadLocal( @-3)
+0xfc    f85d03a0               ldr r0, [fp, #-48]
+0x100    f81f8de0               str r0, [sp, #-8]!
+        ;; DartReturn:18(t0)
+0x104    f84085e0               ldr r0, [sp], #8 !
+0x108    f85f03bb               ldr pp, [fp, #-16]
+0x10c    d100077b               sub pp, pp, #0x1
+0x110    aa1d03ef               mov sp, fp
+0x114    a8c179fd               ldp fp, lr, [sp], #16 !
+0x118    d65f03c0               ret
+        ;; CheckStackOverflowSlowPath
+0x11c    f9425b45               ldr r5, [thr, #1200]
+0x120    d2800004               movz r4, #0x0
+        ;; Runtime call: DRT_InterruptOrStackOverflow
+0x124    f941075e               ldr lr, [thr, #520]
+0x128    d63f03c0               blr lr
+0x12c    17ffffd0               b -192
+}
+ObjectPool len:10 {
+  [pp, #16] _List len:2 (obj)
+  [pp, #24] Code([Stub] DebugStepCheck) (obj)
+  [pp, #32] TypeArguments: (H116f861f) [Type: Void] (obj)
+  [pp, #40] ICData(_getNativeField@7320332 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 12) (obj)
+  [pp, #48] Code([Stub] ZeroArgsUnoptimizedStaticCall) (obj)
+  [pp, #56] ICData(_fromAddress@9050071 num-args: 0 num-checks: 1 type-args-len: 1, deopt-id: 14) (obj)
+  [pp, #64] Code([Stub] ZeroArgsUnoptimizedStaticCall) (obj)
+  [pp, #72] _Uint32List (obj)
+  [pp, #80] ICData(_nativeIntFromPeer$Method$FfiNative@22468563 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 16) (obj)
+  [pp, #88] Code([Stub] ZeroArgsUnoptimizedStaticCall) (obj)
+}
+Source positions for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeIntFromPeer' {
+0-4f: Function 'nativeIntFromPeer': static.@DartCodePrologue
+50-5f: Function 'nativeIntFromPeer': static.@ControlFlow
+60-77: Function 'nativeIntFromPeer': static.@2761
+78-87: Function 'nativeIntFromPeer': static.@NoSource
+88-8f: Function 'nativeIntFromPeer': static.@Constant
+90-a7: Function 'nativeIntFromPeer': static.@NoSource
+a8-bf: Function 'nativeIntFromPeer': static.@NoSource
+c0-cf: Function 'nativeIntFromPeer': static.@NoSource
+d0-eb: Function 'nativeIntFromPeer': static.@2717
+ec-ef: Function 'nativeIntFromPeer': static.@2717
+f0-f7: Function 'nativeIntFromPeer': static.@NoSource
+f8-fb: Function 'nativeIntFromPeer': static.@Constant
+fc-12b: Function 'nativeIntFromPeer': static.@2582
+12c-12f: Function 'nativeIntFromPeer': static.@2582
+}
+PC Descriptors for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeIntFromPeer' {
+pc                kind           deopt-id  tok-ix        try-ix yield-idx
+0x60              deopt                 2  NoSource          -1        -1
+0x78              runtime-call         10  2761              -1        -1
+0x98              deopt                12  NoSource          -1        -1
+0x98              rewind               12  NoSource          -1        -1
+0xa8              unopt-call           12  NoSource          -1        -1
+0xa8              deopt                13  NoSource          -1        -1
+0xb0              deopt                14  NoSource          -1        -1
+0xb0              rewind               14  NoSource          -1        -1
+0xc0              unopt-call           14  NoSource          -1        -1
+0xc0              deopt                15  NoSource          -1        -1
+0xdc              deopt                16  2717              -1        -1
+0xdc              rewind               16  2717              -1        -1
+0xec              unopt-call           16  2717              -1        -1
+0xec              deopt                17  2717              -1        -1
+0x104             deopt                18  NoSource          -1        -1
+0x12c             other                 8  2582              -1        -1
+0x12c             deopt                 9  2582              -1        -1
+}
+Entry points for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_nativeIntFromPeer' {
+  [code+0x07] 0 kNormal
+  [code+0x0f] 0 kMonomorphic
+  [code+0x17] 0 kUnchecked
+  [code+0x1f] 0 kMonomorphicUnchecked
+}
+*** BEGIN CFG
+After AllocateRegisters
+==== file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeIntFromPeer$Method$FfiNative@22468563 (RegularFunction)
+  0: B0[graph]:0 {
+      v0 <- Constant(#null) T{Null?}
+      v1 <- Constant(#<optimized out>) T{Sentinel~}
+      v4 <- Constant(#package:dart_ffi_leaf_struct_repro/repro.dart) T{_OneByteString}
+      v5 <- Constant(#make_int_from_peer) T{_OneByteString}
+      v6 <- Constant(#2) [2, 2] T{_Smi}
+}
+  2: B1[function entry]:2 {
+      v2 <- Parameter(0 @fp[3]) T{Pointer}
+      v3 <- Parameter(1 @fp[2]) T{Pointer}
+}
+  4:     MoveArgument(sp[2] <- v4)
+  6:     MoveArgument(sp[1] <- v5)
+  8:     MoveArgument(sp[0] <- v6)
+ 10:     v7 <- CachableIdempotentCall:8( _ffi_resolver_function@9050071<0> v4, v5, v6) untagged
+ 11:     ParallelMove r23 <- r0, r20 <- fp[3]
+ 12:     v10 <- LoadField(v2 T{Pointer} . PointerBase.data {final}) untagged
+ 13:     ParallelMove r20 <- fp[2]
+ 14:     v11 <- LoadField(v3 T{Pointer} . PointerBase.data {final}) untagged
+ 15:     ParallelMove r0 <- r24, r1 <- r2, r9 <- r23
+ 16:     ParallelMove r20 <- r2
+ 16:     v12 <- FfiCall:14( pointer=v7, v10 (@r0 int64), v11 (@r1 int64)) [-2147483648, 2147483647] int32
+ 18:     v13 <- BoxSmallInt(v12) [-2147483648, 2147483647] T{_Smi}
+ 19:     ParallelMove r0 <- r1
+ 20:     DartReturn:16(v13)
+*** END CFG
+Code for optimized function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeIntFromPeer$Method$FfiNative@22468563' (RegularFunction) {
+        ;; B0
+        ;; B1
+        ;; Enter frame
+0x0    a9bf79fd               stp fp, lr, [sp, #-16]!
+0x4    aa0f03fd               mov fp, sp
+0x8    91000771               add tmp2, pp, #0x1
+0xc    a9bf61f1               stp tmp2, r24, [sp, #-16]!
+0x10    f842731b               ldr pp, [r24, #39]
+0x14    d100077b               sub pp, pp, #0x1
+0x18    d10061ef               sub sp, sp, #0x18
+        ;; MoveArgument(sp[2] <- v4)
+0x1c    f9400b70               ldr tmp, [pp, #16]   "package:dart_ffi_leaf_struct_repro/repro.dart"
+0x20    f9400f7e               ldr lr, [pp, #24]   "make_int_from_peer"
+0x24    a900c1fe               stp lr, tmp, [sp, #8]
+0x28    d2800090               movz tmp, #0x4
+0x2c    f90001f0               str tmp, [sp]
+        ;; MoveArgument(sp[1] <- v5)
+        ;; MoveArgument(sp[0] <- v6)
+        ;; v7 <- CachableIdempotentCall:8( _ffi_resolver_function@9050071<0> v4, v5, v6) untagged
+        ;; CachableIdempotentCall pool load and check. pool_index = 2
+0x30    f9401360               ldr r0, [pp, #32]
+0x34    f100001f               cmp r0, #0x0
+0x38    54000141               bne +40
+        ;; CachableIdempotentCall pool load and check - end
+0x3c    f9401765               ldr r5, [pp, #40]   ICData(_ffi_resolver_function@9050071 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 8)
+0x40    f9401b78               ldr r24, [pp, #48]   Code([Stub] ZeroArgsUnoptimizedStaticCall)
+0x44    f840731e               ldr lr, [r24, #7]
+0x48    d63f03c0               blr lr
+        ;; CachableIdempotentCall pool store
+0x4c    aa0003f0               mov tmp, r0
+0x50    9341fe00               asr r0, tmp, #1
+0x54    36000050               tbzw tmp, #0, +8
+0x58    f8407200               ldr r0, [tmp, #7]
+0x5c    f9001360               str r0, [pp, #32]
+        ;; CachableIdempotentCall pool store - end
+        ;; ParallelMove r23 <- r0, r20 <- fp[3]
+0x60    aa0003f7               mov r23, r0
+0x64    f9400fb4               ldr r20, [fp, #24]
+        ;; v10 <- LoadField(v2 T{Pointer} . PointerBase.data {final}) untagged
+0x68    f8407298               ldr r24, [r20, #7]
+        ;; ParallelMove r20 <- fp[2]
+0x6c    f9400bb4               ldr r20, [fp, #16]
+        ;; v11 <- LoadField(v3 T{Pointer} . PointerBase.data {final}) untagged
+0x70    f8407282               ldr r2, [r20, #7]
+        ;; ParallelMove r0 <- r24, r1 <- r2, r9 <- r23
+0x74    aa1803e0               mov r0, r24
+0x78    aa0203e1               mov r1, r2
+0x7c    aa1703e9               mov r9, r23
+        ;; ParallelMove r20 <- r2
+0x80    aa0203f4               mov r20, r2
+        ;; v12 <- FfiCall:14( pointer=v7, v10 (@r0 int64), v11 (@r1 int64)) [-2147483648, 2147483647] int32
+0x84    aa0f03f3               mov r19, sp
+0x88    d10021ef               sub sp, sp, #0x8
+0x8c    927cedef               and sp, sp, 0xfffffffffffffff0
+        ;; EmitParamMoves
+        ;; arg_index 0 arg_target r0 int64
+        ;;   def_index 0
+        ;; def_target r0 int64 <- origin r0 untagged
+        ;; arg_index 1 arg_target r1 int64
+        ;;   def_index 1
+        ;; def_target r1 int64 <- origin r1 untagged
+        ;; EmitParamMovesEnd
+        ;; Leaf Call
+0x90    f9036f5d               str fp, [thr, #1752]
+0x94    f9038349               str r9, [thr, #1792]
+0x98    910003f9               mov r25, csp
+0x9c    910001ff               mov csp, sp
+0xa0    d63f0120               blr r9
+0xa4    910003ef               mov sp, csp
+0xa8    9100033f               mov csp, r25
+0xac    d280010a               movz r10, #0x8
+0xb0    f903834a               str r10, [thr, #1792]
+0xb4    f9036f5f               str zr, [thr, #1752]
+        ;; EmitReturnMoves
+        ;; EmitReturnMovesEnd
+0xb8    aa1303ef               mov sp, r19
+        ;; ParallelMove r0 <- r0
+        ;; v13 <- BoxSmallInt(v12) [-2147483648, 2147483647] T{_Smi}
+0xbc    937f7c01               sbfm r1, r0, #63, #31
+        ;; ParallelMove r0 <- r1
+0xc0    aa0103e0               mov r0, r1
+        ;; DartReturn:16(v13)
+0xc4    f85f03bb               ldr pp, [fp, #-16]
+0xc8    d100077b               sub pp, pp, #0x1
+0xcc    aa1d03ef               mov sp, fp
+0xd0    a8c179fd               ldp fp, lr, [sp], #16 !
+0xd4    d65f03c0               ret
+}
+ObjectPool len:5 {
+  [pp, #16] package:dart_ffi_leaf_struct_repro/repro.dart (obj)
+  [pp, #24] make_int_from_peer (obj)
+  [pp, #32] 0x0 (raw)
+  [pp, #40] ICData(_ffi_resolver_function@9050071 num-args: 0 num-checks: 1 type-args-len: 0, deopt-id: 8) (obj)
+  [pp, #48] Code([Stub] ZeroArgsUnoptimizedStaticCall) (obj)
+}
+Source positions for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeIntFromPeer$Method$FfiNative@22468563' {
+0-1b: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@DartCodePrologue
+1c-4b: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@NoSource
+4c-5f: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@NoSource
+60-67: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@ParallelMove
+68-6b: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@NoSource
+6c-6f: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@ParallelMove
+70-73: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@NoSource
+74-83: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@ParallelMove
+84-bb: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@NoSource
+bc-bf: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@Box
+c0-c3: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@ParallelMove
+c4-d7: Function '_nativeIntFromPeer$Method$FfiNative@22468563': static.@NoSource
+}
+PC Descriptors for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeIntFromPeer$Method$FfiNative@22468563' {
+pc                kind           deopt-id  tok-ix        try-ix yield-idx
+0x3c              rewind                8  NoSource          -1        -1
+0x4c              unopt-call            8  NoSource          -1        -1
+0x4c              deopt                 9  NoSource          -1        -1
+}
+StackMaps for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeIntFromPeer$Method$FfiNative@22468563' {
+0x0000004c: 
+}
+Entry points for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::__nativeIntFromPeer$Method$FfiNative@22468563' {
+  [code+0x07] 0 kNormal
+  [code+0x0f] 0 kMonomorphic
+  [code+0x17] 0 kUnchecked
+  [code+0x1f] 0 kMonomorphicUnchecked
+}
+PASS native-field argument + malloc pointer + int return
+  -> returned null, input remains 9
+FAIL native-field argument + .address + small return
+  -> returned null, input remains 9
+FAIL native-field argument + .address + big return
+*** BEGIN CFG
+Unoptimized Compilation
+==== file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeIntFromPeer#T (RegularFunction)
+B0[graph]:0
+B1[function entry]:2
+    CheckStackOverflow:8(stack=0, loop=0)
+    DebugStepCheck:10()
+    t0 <- Constant(#null)
+    DebugStepCheck:12()
+    DartReturn:14(t0)
+*** END CFG
+Code for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeIntFromPeer#T' (RegularFunction) {
+        ;; B0
+        ;; B1
+        ;; Invocation Count Check
+0x0    f8437306               ldr r6, [r24, #55]
+0x4    b886f0c7               ldrsw r7, [r6, #111]
+0x8    910004e7               add r7, r7, #0x1
+0xc    b806f0c7               strw r7, [r6, #111]
+0x10    d2846511               movz tmp2, #0x2328
+0x14    eb1100ff               cmp r7, tmp2
+0x18    5400006b               blt +12
+0x1c    f9412f50               ldr tmp, [thr, #600]
+0x20    d61f0200               br tmp
+        ;; Enter frame
+0x24    a9bf79fd               stp fp, lr, [sp, #-16]!
+0x28    aa0f03fd               mov fp, sp
+0x2c    91000771               add tmp2, pp, #0x1
+0x30    a9bf61f1               stp tmp2, r24, [sp, #-16]!
+0x34    f842731b               ldr pp, [r24, #39]
+0x38    d100077b               sub pp, pp, #0x1
+0x3c    d10021ef               sub sp, sp, #0x8
+        ;; Initialize spill slots
+0x40    f81e83b6               str nr, [fp, #-24]
+        ;; Edge counter
+0x44    f9400b60               ldr r0, [pp, #16]   _List len:2
+0x48    f841f010               ldr tmp, [r0, #31]
+0x4c    91000a10               add tmp, tmp, #0x2
+0x50    f801f010               str tmp, [r0, #31]
+        ;; CheckStackOverflow:8(stack=0, loop=0)
+0x54    f9402750               ldr tmp, [thr, #72]
+0x58    eb1001ff               cmp sp, tmp
+0x5c    540001e9               bls +60
+        ;; DebugStepCheck:10()
+0x60    f9400f78               ldr r24, [pp, #24]   Code([Stub] DebugStepCheck)
+0x64    f840731e               ldr lr, [r24, #7]
+0x68    d63f03c0               blr lr
+        ;; t0 <- Constant(#null)
+0x6c    aa1603e0               mov r0, nr
+0x70    f81f8de0               str r0, [sp, #-8]!
+        ;; DebugStepCheck:12()
+0x74    f9401378               ldr r24, [pp, #32]   Code([Stub] DebugStepCheck)
+0x78    f840731e               ldr lr, [r24, #7]
+0x7c    d63f03c0               blr lr
+        ;; DartReturn:14(t0)
+0x80    f84085e0               ldr r0, [sp], #8 !
+0x84    f85f03bb               ldr pp, [fp, #-16]
+0x88    d100077b               sub pp, pp, #0x1
+0x8c    aa1d03ef               mov sp, fp
+0x90    a8c179fd               ldp fp, lr, [sp], #16 !
+0x94    d65f03c0               ret
+        ;; CheckStackOverflowSlowPath
+0x98    f9425b45               ldr r5, [thr, #1200]
+0x9c    d2800004               movz r4, #0x0
+        ;; Runtime call: DRT_InterruptOrStackOverflow
+0xa0    f941075e               ldr lr, [thr, #520]
+0xa4    d63f03c0               blr lr
+0xa8    17ffffee               b -72
+}
+ObjectPool len:3 {
+  [pp, #16] _List len:2 (obj)
+  [pp, #24] Code([Stub] DebugStepCheck) (obj)
+  [pp, #32] Code([Stub] DebugStepCheck) (obj)
+}
+Source positions for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeIntFromPeer#T' {
+0-43: Function '#nativeIntFromPeer#T': static.@DartCodePrologue
+44-53: Function '#nativeIntFromPeer#T': static.@ControlFlow
+54-6b: Function '#nativeIntFromPeer#T': static.@2734
+6c-7f: Function '#nativeIntFromPeer#T': static.@2767
+80-a7: Function '#nativeIntFromPeer#T': static.@2582
+a8-ab: Function '#nativeIntFromPeer#T': static.@2582
+}
+PC Descriptors for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeIntFromPeer#T' {
+pc                kind           deopt-id  tok-ix        try-ix yield-idx
+0x54              deopt                 2  NoSource          -1        -1
+0x6c              runtime-call         10  2734              -1        -1
+0x80              runtime-call         12  2767              -1        -1
+0x80              deopt                14  2767              -1        -1
+0xa8              other                 8  2582              -1        -1
+0xa8              deopt                 9  2582              -1        -1
+}
+Entry points for function 'file:///private/tmp/ffi-wrapper-repro-update/bin/repro.dart_::_#nativeIntFromPeer#T' {
+  [code+0x07] 0 kNormal
+  [code+0x0f] 0 kMonomorphic
+  [code+0x17] 0 kUnchecked
+  [code+0x1f] 0 kMonomorphicUnchecked
+}
+  -> returned null, input remains 9
+FAIL native-field argument + .address + int return
+5 check(s) failed - see above.
