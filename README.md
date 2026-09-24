@@ -1,33 +1,20 @@
-# Dart FFI: leaf `.address` calls lose generated wrappers
+Reproduction of Dart compiler bug where leaf `@Native` call using `.address` when returning struct by value or accepts a `NativeFieldWrapperClass1` object.
 
-This reproduces a Dart compiler bug: a leaf `@Native` call using
-`TypedData.address` can silently return `null` without calling C when it:
-
-- returns a struct by value; or
-- also accepts a `NativeFieldWrapperClass1` object that Dart converts to a native pointer.
-
-Ordinary `Pointer` arguments work. Without the native-field argument, an integer
-return also works.
-
-## Run (macOS)
-
-Requires Dart, a C compiler (`cc`), and access to pub.dev for dependencies.
-
+To run the reproduction in JIT mode:
 ```sh
 ./run.sh
 ```
 
-The script builds the DynamicLibrary control library, resolves dependencies,
-and runs the reproduction. Dart's build hook builds the `@Native` code asset.
+Requires Dart, & C compiler (`cc`).
 
-There are **21 checks**. On Dart 3.12.1/macOS arm64, 16 controls pass and five
-`.address` calls return null: the two original struct-return cases, plus small
-struct, big struct, and integer returns with a native-field argument. The new
-cases also show that the native input mutation never happens.
+To run via AOT after running `./run.sh`:
 
-**Exit code 1 is expected on an affected SDK.** A fixed compiler should print
-`All checks passed.` and exit 0. Running this project does not patch the
-installed SDK.
+```sh
+dart build cli -t bin/repro.dart -o build/aot
+build/aot/bundle/bin/repro
+```
+
+This compiles `native/lib.c` and runs `bin/repro.dart`, which contains 21 checks (similar to existing Dart SDK FFI test suite). These should all pass, but 5 will fail in JIT mode (.address with struct-return and the native-field argument) and will crash in AOT mode (at least, on macos).
 
 ## Coverage
 
@@ -66,25 +53,5 @@ The related feature tracking issue is
 [dart-lang/sdk#44589](https://github.com/dart-lang/sdk/issues/44589); it concerns
 the original TypedData-unwrapping feature, rather than this specific bug.
 
-## Validation
 
-Validated on 2026-09-24 on macOS arm64:
 
-- System Dart 3.12.1: 16 pass, five fail as expected; `dart analyze` passes.
-- Patched frontend with Dart 3.14.0-248.0.dev: all 21 checks pass in JIT and AOT.
-
-To try AOT with your installed SDK after running `./run.sh`:
-
-```sh
-dart build cli -t bin/repro.dart -o build/aot
-build/aot/bundle/bin/repro
-```
-
-An affected AOT build may crash rather than print a failed check. The original
-reproduction exhibited this on Dart 3.12.2/macOS arm64.
-
-## Workaround
-
-Copy the input into allocated native memory and pass its `Pointer`, as the
-malloc controls demonstrate. `isLeaf: true` can remain. Removing `isLeaf` alone
-is insufficient: `.address` requires a leaf `@Native` call.
